@@ -1,0 +1,33 @@
+\subsection*{Removing corner nodes from processing}
+We first remove corner nodes to try reduce the branching amount\\
+\begin{tabular}{ l | l }
+  \hline
+  Size & Average Over Three Time \\
+  \hline
+  \hline
+  small & 2.08s \\
+  medium & 14.65 \\
+  \hline
+\end{tabular}
+
+We then profile for small.vtk to see what effect this has made.\\
+\begin{tabular}{ l | l | l | l}
+\hline
+Test & Average & Min & Max \\
+\hline
+\hline
+gld\_request & 16417.01 & 418.00 & 32424.00 \\
+gputime & 1403.84 & 147.87 & 2170.66 \\
+occupancy & 0.22 & 0.03 & 0.25 \\
+gst\_request & 170.41 & 2.00 & 384.00 \\
+cputime & 1463.84 & 164.00 & 3010.00 \\
+branch & 1659.49 & 213.00 & 3470.00 \\
+divergent\_branch & 84.81 & 7.00 & 180.00 \\
+gld\_32b & 98568.91 & 1470.00 & 171686.00 \\
+gld\_coherent & 137409.87 & 1470.00 & 250239.00 \\
+gld\_64b & 9981.73 & 0.00 & 19780.00 \\
+instructions & 38571.64 & 5167.00 & 80180.00 \\
+\hline
+\end{tabular}
+
+Interestingly this has not reduced the number of divergent branches, since it is likely that most corner nodes are sequentially ordered together so form an entire warp.
