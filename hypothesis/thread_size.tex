@@ -1,0 +1,3 @@
+\subsection*{Threads Per Block}
+Every thread block is mapped to one or more warps, which contains 32 parallel threads that are launched together. When launching a kernel in CUDA we can specify the number of blocks, and threads per block. Of course the total number of threads must be greater than or equal to the number of nodes in each set, but we can vary the ratio of blocks and threads to find a sweet spot.
+
