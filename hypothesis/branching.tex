@@ -1,0 +1,23 @@
+\subsection*{Branching}
+Unlike CPU cores GPU's offer no branch prediction or speculative execution.
+When a multiprocessor is given one or more thread blocks to execute, it partitions them into warps (32 parallel threads), and these execute one common instruction at a time.
+At branch statements threads can diverge however, the warp will serially execute each branch path taken for all threads (but just disabling them) and when paths complete the threads will converge.\cite{cuda_guide}. This will kill the performance of the GPU if many threads within a warp.
+
+A major source of branching in the smoothing algorithm comes from the fact that different verticies have different numbers of neighbours. The three main loops (calculating worst coords, calculating the new worst coords, and assembling matricies A \& q) all depend upon looping over a verticies neighbours and thus each warp will end up executing the loop the maximum number of neighbours times.
+
+We will therefore investigate the following:
+\begin{itemize}
+  \item \textbf{Minimising branching}
+                In order to avoid this we will investigate minimising the branches by ordering the individual verticies in order of the number of neighbours they have. This will reduce branching since in most warps all threads will process verticies with the same degree and only a few unlucky warps that have a transition in number of neighborus will do some unnecessary work.
+                For example if the verticies in color 0 were 1, 4, 6, 7, 10, 12 and we have 0, 4, 6, 12 have 6 neighbours, 1 and 7 have 5, and 10 has 4 we would re-order them to be 10, 1, 7 0, 4, 6, 12.
+
+  \item \textbf{Removing corner nodes during coloring}
+                The smoothing algorithm bypasses any corner nodes and so we can avoid the conditional branch:
+                % Don't adjust the intenting on this, verbatim is irritating!
+                \begin{verbatim}
+  if(isCornerNode(vid)) {
+    return;
+  }
+                \end{verbatim}
+                By factoring out corner nodes during the colouring phase it removes the need for this branch entirely and so should hopefully provide a slight speed up.
+\end{itemize}
