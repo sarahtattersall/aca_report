@@ -1,6 +1,6 @@
 \subsection*{GPU}
 Once the verticies have been colored and the code migrated to the GPU the initial results are as follows.\\
-\begin{tabular}{ l | l }
+\begin{figure}[H]\centering \begin{tabular}{ l | l }
   \hline
   Size & Average Over Three Time \\
   \hline
@@ -8,11 +8,11 @@ Once the verticies have been colored and the code migrated to the GPU the initia
   small & 2.18s \\
   medium & 14.99 \\
   \hline
-\end{tabular}
+\end{tabular} \end{figure}
 
 As we can see, moving the code to the GPU and parallelising it makes a huge difference to the performance of this algorithm.
 From profiling the small.vtk run we can gather the following statistics as a benchmark to start from:\\
-\begin{tabular}{ l | l | l | l}
+\begin{figure}[H]\centering \begin{tabular}{ l | l | l | l}
 \hline
 Test & Average & Min & Max \\
 \hline
@@ -25,6 +25,6 @@ cputime & 1430.26 & 165.00 & 2703.00 \\
 branch & 1627.76 & 214.00 & 3372.00 \\
 divergent\_branch & 83.44 & 7.00 & 185.00 \\
 \hline
-\end{tabular}
+\end{tabular} \end{figure}
 
 From profiling we can see that the warps have very high average devergent which leads us nicely onto the next topic of reordering.

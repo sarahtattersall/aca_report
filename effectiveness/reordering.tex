@@ -1,6 +1,6 @@
 \subsection*{Reordering the colours}
 We then reordered the colours into an ordering based upon neighbour size and observed the following results\\
-\begin{tabular}{ l | l }
+\begin{figure}[H]\centering \begin{tabular}{ l | l }
   \hline
   Size & Average Over Three Time \\
   \hline
@@ -8,11 +8,11 @@ We then reordered the colours into an ordering based upon neighbour size and obs
   small & 2.15s \\
   medium & 15.23 \\
   \hline
-\end{tabular}
+\end{tabular} \end{figure}
 
 These results were suprising to use since they have negatively impacted the speed of the smoothing algorithm and as such we will not include them in the final results. In order to understand what is happening we profiled the algorithm for small.vtk and obtained the following results:\\
 
-\begin{tabular}{ l | l | l | l}
+\begin{figure}[H]\centering \begin{tabular}{ l | l | l | l}
 \hline
 Test & Average & Min & Max \\
 \hline
@@ -29,9 +29,9 @@ gld\_coherent & 147191.70 & 1470.00 & 264762.00 \\
 gld\_64b & 8147.01 & 0.00 & 16695.00 \\
 instructions & 26618.93 & 3931.00 & 48988.00 \\
 \hline
-\end{tabular}
+\end{tabular} \end{figure}
 
 We can see that the average 32-byte global memory load transactions has significantly increased from the previous value of 98568.91 to 118216.75 which we can account for as cache misses. We can account this to a worsening of data locality. Before the colouring order kept the natrual vertex order (e.g. 0, 1, 2, 3, 4) and so it is likely that many warps shared their neighbours and so had good temporal locality across the span.
-Now that they are re-ordered it is possible that none of one verticies nodes may apply to the next vertex in the list.
-Here the half-warp broadcast feature (discussed in the migration section) is likely to be degrading the performance if the
+Now that they are re-ordered it is possible that none of one verticies nodes may apply to the next vertex in the list, therefore losing temporal locality.
+Now the half-warp broadcast feature (discussed in the migration section) is likely to be degrading the performance if the
 threads in the warp all read different addresses which is likely to now be the case.
