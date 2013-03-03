@@ -31,5 +31,9 @@ Finally we must adapt the smoothing algorithm for the GPU in a number of steps:
         We must be careful to ensure that we do not access beyond the end of arrays and so the if statement above checks this for us.
   \item \textbf{Modify mesh methods for running on the GPU}. \\
         Since we will not have access to the mesh object on the GPU we will no longer be able to call methods such as \verb!mesh->isCornerNode(vid);!. All methods needed by the smoothing algorithm must be declared as \verb!__device__! methods and re-written.
+  \item \textbf{Use constant memory}
+        We will store our device data in constant memory on the GPU. The reason behind this is that Nvidia hardware can broadcast a single memory read to each half warp so if threads in a half warp request data from the same address then the GPU will only generate one load request.\cite{const_mem} It does this by splitting each half warp into as many separate requests as there are different memory addresses in the initial request, decreasing throughput by a factor equal to the number of separate requests.\cite{half_warp_broadcast} This will save a lot of traffic compared to global memory.
+        Furthermore constant data is cached on the GPU so if the other half warp also needs the data it can get it from the cache rather than the memory.
+
 \end{itemize}
 
