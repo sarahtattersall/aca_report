@@ -1,0 +1,2 @@
+\subsection*{Batch Data Transfer}
+The many data structures used in the mesh smoothing algorithm must be copied to device memory from the host, in order to use them on the GPU. Every copy to the device comes with an overhead\cite{transfer}, and so it may be beneficial to group different data structures together into contiguous memory so that they can be transfered to the device in a single operation.

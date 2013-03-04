@@ -1,3 +1,5 @@
 \subsection*{Threads Per Block}
-Every thread block is mapped to one or more warps, which contains 32 parallel threads that are launched together. When launching a kernel in CUDA we can specify the number of blocks, and threads per block. Of course the total number of threads must be greater than or equal to the number of nodes in each set, but we can vary the ratio of blocks and threads to find a sweet spot.
+Every thread block is mapped to one or more warps, which contains 32 parallel threads that are launched together. When launching a kernel in CUDA we can specify the number of blocks, and threads per block. Of course the total number of threads must be greater than or equal to the number of vertices in each colouring (so as to process all vertices), but we can vary the ratio of blocks and threads to find a sweet spot.
+
+The number of threads should be a multiple of the warp size, which is 32 for the lab GPUs, as it will ensure that the GPU is not wasting computation on under-populated threads. The GPU will switch between warps to hide memory latency\cite{threads_atomics}, and so too small a number of threads per block and there may not be a warp to pick to schedule while another warp is waiting for a memory access. However too large a number of threads per block will result in there not being enough blocks to use every microprocessor available.
 
