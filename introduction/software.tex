@@ -1,7 +1,11 @@
 \subsubsection*{Software}
 The softwares we have made use of on both lab machines and cx1 are:
 \begin{itemize}
-  \item \textbf{CUDA Compiler Driver NVCC} which ...
+  \item \textbf{NVIDIA CUDA Compiler (NVCC)} which deals with the compilation and transfer of CUDA code. The code is divided into CPU-bound and GPU-bound code, delegating the compilation of the former to a C/C++ compiler, and compiling the latter. Finally, the compiled binaries are transferred to their respective destinations.
   \item \textbf{CUDA Command Line Profiler}
-  \item \textbf{Python} for scripting of both profiled results and benchmark scores
+  \item \textbf{Gprof} for profiling functions run on the CPU, and exposing potential for parallelism.
+  \item \textbf{Python} for writing scripts to analyse both profiled results and benchmark scores, performing database operations, and assist in running commands remotely.
+  \item \textbf{Bash}, similarly, for writing scripts to perform database operations, and automating experiment runs.
+  \item \textbf{cuda-gdb} used for debugging CUDA code.
+  \item \textbf{cuda-memcheck} is a good complement to \textbf{cuda-gdb}, particularly useful for diagnosing illegal memory accesses.
 \end{itemize}
