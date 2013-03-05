@@ -1,7 +1,7 @@
 \subsection*{Batch Data Transfer}
 We grouped together the data transfer of eight different arrays, which involved careful allocation of memory and pointer manipulation to ensure that the arrays were correctly aligned in contiguous memory. Without pinning, we achieved the following results:
 
-\begin{figure}[H]\centering \begin{tabular}{ l | l }
+\begin{figure}[H]\centering \begin{tabular}{ l | l | l}
   \hline
   Size & Individual Time (s) & Batch Time (s)\\
   \hline
@@ -11,4 +11,4 @@ We grouped together the data transfer of eight different arrays, which involved 
   \hline
 \end{tabular} \end{figure}
 
-This shows that although not a hugely significant change, reducing the data transfer latency provided a reasonable speed up. Interestingly, the 
+This shows that although not a hugely significant change, reducing the data transfer latency provided a reasonable speed up. Interestingly, the
