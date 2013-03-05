@@ -10,10 +10,10 @@ We first remove corner nodes to try reduce the branching amount, although we do 
   \hline
 \end{tabular} \end{figure}
 
-The results from this run show that it makes a large difference to the time in which the smoothing takes to run for both the medium and small meshes. This can be explained because we are reducing the number of threads in a warp meaning that the GPU should have less warps to process. With less warps each warp will be scheduled more often and so the program will finish faster. Furthermore because there is no branch prediction or speculation on a GPU if the warp had contained any corner nodes then these would also run the entire smoothing algorithm too, wasting precious GPU resources. Now we have removed them we can be sure that only the verticies that need smoothing will be run.
+The results from this run show that it makes a large difference to the time in which the smoothing takes to run for both the medium and small meshes. This can be explained because we are reducing the number of threads in a warp meaning that the GPU should have less warps to process. With less warps each warp will be scheduled more often and so the program will finish faster. Furthermore because there is no branch prediction or speculation on a GPU if the warp had contained any corner nodes then these would also run the entire smoothing algorithm too, wasting precious GPU resources. Now we have removed them we can be sure that only the vertices that need smoothing will be run.
 The only exception is the final warp where the \verb!threadID >= NNodesInSet!
 us GPU resources.
-With the removal of them we can focus the resources on verticies that actually require smoothing.
+With the removal of them we can focus the resources on vertices that actually require smoothing.
 
 We then profile for small.vtk to see what effect this has made.\\
 \begin{figure}[H]\centering \begin{tabular}{ l | l | l | l}

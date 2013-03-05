@@ -1,18 +1,18 @@
 \subsection*{Migration to GPU}
-In order to run the code on the GPU we must serialize 2D data structures. For example consider a vector of vectors:
+In order to run the code on the GPU we must serialise 2D data structures. For example consider a vector of vectors:
 \begin{verbatim}
   std::vector< std::vector<size_t> > colours = {[1, 5, 9, 2],
                                                 [0, 4, 8],
                                                 [3, 6, 7]};
 \end{verbatim}
-Since we do not have access to the standard library on a GPU the easiest and most effecient option is to turn this into a 1D array.
+Since we do not have access to the standard library on a GPU the easiest and most efficient option is to turn this into a 1D array.
 \begin{verbatim}
   size_t[] colours = {1, 5, 9, 2,
                       0, 4, 8,
                       3, 6, 7};
   size_t[] colour_indicies = {0 , 4, 7, 10};
 \end{verbatim}
-In each case must add an extra indicies array, in this case \verb!colour_indicies!, to exactly where the beginning of each colour is in \verb!colours!. The array must be of size one larger than the number of items so that we can perform size
+In each case must add an extra indices array, in this case \verb!colour_indicies!, to exactly where the beginning of each colour is in \verb!colours!. The array must be of size one larger than the number of items so that we can perform size
 calculations of the individual groups inside for looping purposes.
 
 Next we must copy input data from the CPU memory to GPU memory which can be done with the \verb!cuMemAlloc! function to allocate memory, \verb!cuMemcpyHtoD! to copy from host to device and a similar method to copy data back. All setup code for running on the GPU is in \verb!CUDATools.h!
@@ -21,7 +21,7 @@ Finally we must adapt the smoothing algorithm for the GPU in a number of steps:
 \begin{itemize}
   \item \textbf{Modify the code to smooth a single vertex rather than looping through them all.} \\
         We can calculate the vertex id easily using block and thread indexing like so:
-        % Don't adjust the intenting on this, verbatim is irritating!
+        % Don't adjust the indenting on this, verbatim is irritating!
         \begin{verbatim}
     const size_t threadID = blockIdx.x * blockDim.x + threadIdx.x;
     if(threadID >= NNodesInSet)
