@@ -1,2 +1,7 @@
 \subsection*{Batch Data Transfer}
-The many data structures used in the mesh smoothing algorithm must be copied to device memory from the host, in order to use them on the GPU. Every copy to the device comes with an overhead\cite{transfer}, and so it may be beneficial to group different data structures together into contiguous memory so that they can be transferred to the device in a single operation.
+The many data structures used in the mesh smoothing algorithm must be copied to device memory from the host, in order to use them on the GPU. The time of a copy to the device is comprised of two parts, a time due to bandwidth \begin{math}T_B\end{math} and a time due to latency \begin{math}T_L\end{math}\cite{transfer2}.
+
+\begin{math}T_\mathit{total} = T_L + T_B*D\end{math}
+%TODO: Align and format this nicely, I have no idea when it comes to latex!
+
+The time due to bandwidth is unavoidable. It depends upon \begin{math}D\end{math}, the quantity of data transferred. We have a fixed amount of data that we must copy to the GPU. However the latency is a fixed constant time for every transfer from the host to the device. This means that it may be beneficial to group different data structures together into contiguous memory, so that they can be transferred to the device in a single operation, thus reducing the total data transfer time.

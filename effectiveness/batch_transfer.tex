@@ -1,2 +1,14 @@
 \subsection*{Batch Data Transfer}
-We grouped together data transfer of eight different arrays,  reducing the total number of copies from 10 down to 3.
+We grouped together the data transfer of eight different arrays, which involved careful allocation of memory and pointer manipulation to ensure that the arrays were correctly aligned in contiguous memory. Without pinning, we achieved the following results:
+
+\begin{figure}[H]\centering \begin{tabular}{ l | l }
+  \hline
+  Size & Individual Time (s) & Batch Time (s)\\
+  \hline
+  \hline
+  small & 2.080 & 2.065 \\
+  medium & 14.659 & 14.645 \\
+  \hline
+\end{tabular} \end{figure}
+
+This shows that although not a hugely significant change, reducing the data transfer latency provided a reasonable speed up. Interestingly, the 
