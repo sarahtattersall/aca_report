@@ -1,5 +1,17 @@
 \subsection*{Batch Data Transfer}
-We grouped together the data transfer of eight different arrays, which involved careful allocation of memory and pointer manipulation to ensure that the arrays were correctly aligned in contiguous memory. Without pinning, we achieved the following results:
+We grouped together the data transfer of eight different arrays:
+\begin{verbatim}
+size_t* NNListIndex
+size_t* NNListArray
+size_t* NEListIndex
+size_t* NEListArray
+size_t* ENList
+float* coords
+float* normals
+float* metric
+\end{verbatim}
+
+This involved careful allocation of memory and pointer manipulation to ensure that the arrays were correctly allocated contiguous memory. This meant that we had to add offsets where necessary to word-align the arrays of \verb!size_t! (8 bytes) and of \verb!float! (4 bytes). Without pinning, we achieved the following results:
 
 \begin{figure}[H]\centering \begin{tabular}{ l | l | l}
   \hline
@@ -11,4 +23,6 @@ We grouped together the data transfer of eight different arrays, which involved 
   \hline
 \end{tabular} \end{figure}
 
-This shows that although not a hugely significant change, reducing the data transfer latency provided a reasonable speed up. Interestingly, the
+This shows that although not a hugely significant change, reducing the data transfer latency provided a reasonable speed up.
+
+Although not part of the benchmark, the allocation of memory for these arrays in the CPU would also take less time, as we are making 7 fewer system calls to \verb!malloc! or \verb!cudaHostAlloc!. This may also take advantage of spatial locality in the CPU cache when the time comes to copy the data to the GPU - as we finish copying an array to the GPU, the cache may have prepopulated itself with the start of the next array as they are adjacent in memory. %TODO is this reasonable?
