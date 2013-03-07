@@ -1,5 +1,5 @@
 \subsection{Batch Data Transfer}
-In order to use the many data structures involved in the mesh smoothing algorithm on the GPU we must first copy them to device memory from the host. The time of a copy to the device is comprised of two parts, a time due to bandwidth \begin{math}T_B\end{math} and a time due to latency \begin{math}T_L\end{math}\cite{transfer2}:
+In order to use the many data structures involved in the mesh smoothing algorithm on the GPU we must first copy them to device memory from the host. The time of a copy to the device is comprised of two parts, a time due to bandwidth \begin{math}T_B\end{math} and a time due to latency \begin{math}T_L\end{math}~\cite{transfer2}:
 
 \begin{align*}
 T_\mathit{total} = T_L + (T_B*D)

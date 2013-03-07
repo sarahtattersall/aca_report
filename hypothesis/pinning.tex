@@ -1,9 +1,9 @@
 \subsection{Pinning}
-Host data allocations are pageable by default which means that the GPU cannot access data directly from pageable host memory. When a data transfer from pageable host memory to device memory is invoked, the CUDA driver must first allocate a pinned host array, copy the host data to the pinned array, and then transfer the data from the pinned array to device memory\cite{transfer}, as illustrated in Figure ~\ref{fig:pinning}.
+Host data allocations are pageable by default which means that the GPU cannot access data directly from pageable host memory. When a data transfer from pageable host memory to device memory is invoked, the CUDA driver must first allocate a pinned host array, copy the host data to the pinned array, and then transfer the data from the pinned array to device memory~\cite{transfer}, as illustrated in Figure ~\ref{fig:pinning}.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.3]{images/pinning}
-  \caption[pinning]{GPU Data Transfers\cite{transfer}}
+  \caption[pinning]{GPU Data Transfers~\cite{transfer}}
   \label{fig:pinning}
 \end{figure}
 Pinned memory is used as a staging area for transfers and we can avoid this cost by directly allocating our host arrays (colours, coords, etc.) in pinned memory.
