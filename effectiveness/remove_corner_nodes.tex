@@ -1,4 +1,4 @@
-\subsection*{Removing corner nodes from processing}
+\subsection{Removing corner nodes from processing}
 We first remove corner nodes to try reduce the branching amount, although we do not expect this to make a huge difference it will hopefully remove the number of divergent branches, increasing the performance of the algorithm. \\
 \begin{figure}[H]\centering \begin{tabular}{ l | l }
   \hline
@@ -36,3 +36,5 @@ instructions & 38571.64 & 5167.00 & 80180.00 \\
 \end{tabular} \end{figure}
 
 Although this looks to have not reduced the number of divergent branches, this is likely to come from the fact that we now have less warps. [TODO EXPLAIN PROFILER RESULTS]
+
+Often loops are biased so doesn't make too much difference..[EXPLAIN THIS]

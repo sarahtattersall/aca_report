@@ -1,4 +1,4 @@
-\subsection*{Migration to GPU}
+\subsection{Migration to GPU}
 In order to run the code on the GPU we must serialise 2D data structures. For example consider a vector of vectors:
 \begin{verbatim}
   std::vector< std::vector<size_t> > colours = {[1, 5, 9, 2],
@@ -10,9 +10,9 @@ Since we do not have access to the standard library on a GPU the easiest and mos
   size_t[] colours = {1, 5, 9, 2,
                       0, 4, 8,
                       3, 6, 7};
-  size_t[] colour_indicies = {0 , 4, 7, 10};
+  size_t[] colour_indicies = {0, 4, 7, 10};
 \end{verbatim}
-In each case must add an extra indices array, in this case \verb!colour_indicies!, to exactly where the beginning of each colour is in \verb!colours!. The array must be of size one larger than the number of items so that we can perform size
+In each case must add an extra indices array, in this case \verb!colour_indicies!, to know exactly where the beginning of each colour is in \verb!colours!. The array must be of size one larger than the number of items so that we can perform size
 calculations of the individual groups inside for looping purposes.
 
 Next we must copy input data from the CPU memory to GPU memory which can be done with the \verb!cuMemAlloc! function to allocate memory, \verb!cuMemcpyHtoD! to copy from host to device and a similar method to copy data back. All setup code for running on the GPU is in \verb!CUDATools.h!
@@ -30,10 +30,10 @@ Finally we must adapt the smoothing algorithm for the GPU in a number of steps:
         \end{verbatim}
         We must be careful to ensure that we do not access beyond the end of arrays and so the if statement above checks this for us.
   \item \textbf{Modify mesh methods for running on the GPU}. \\
-        Since we will not have access to the mesh object on the GPU we will no longer be able to call methods such as \verb!mesh->isCornerNode(vid);!. All methods needed by the smoothing algorithm must be declared as \verb!__device__! methods and re-written.
-  \item \textbf{Use constant memory}
-        We will store our device data in constant memory on the GPU. The reason behind this is that Nvidia hardware can broadcast a single memory read to each half warp so if threads in a half warp request data from the same address then the GPU will only generate one load request.\cite{const_mem} It does this by splitting each half warp into as many separate requests as there are different memory addresses in the initial request, decreasing throughput by a factor equal to the number of separate requests.\cite{half_warp_broadcast} This will save a lot of traffic compared to global memory.
-        Furthermore constant data is cached on the GPU so if the other half warp also needs the data it can get it from the cache rather than the memory.
+        Since we cannot copy the mesh object directly from the CPU to GPU will not have the ability to call the mesh object's methods, such as \verb!mesh->isCornerNode(vid);!. All methods needed by the smoothing algorithm must be declared as \verb!__device__! methods and re-written.
+  \item \textbf{Use constant memory}\\
+        We will store our device data in constant memory on the GPU. The reason behind this is that Nvidia hardware can broadcast a single memory read to each half warp so if threads in a half warp request data from the same address then the GPU will only generate one load request\cite{const_mem}. It does this by splitting each half warp into as many separate requests as there are different memory addresses in the initial request, decreasing throughput by a factor equal to the number of separate requests\cite{half_warp_broadcast}. This will save a lot of traffic compared to global memory.
+        Furthermore constant data is cached on the GPU so if the other half warp also needs the data it can retrieve it directly from the cache rather than the memory.
 
 \end{itemize}
 

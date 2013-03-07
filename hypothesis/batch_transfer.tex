@@ -1,4 +1,4 @@
-\subsection*{Batch Data Transfer}
+\subsection{Batch Data Transfer}
 The many data structures used in the mesh smoothing algorithm must be copied to device memory from the host, in order to use them on the GPU. The time of a copy to the device is comprised of two parts, a time due to bandwidth \begin{math}T_B\end{math} and a time due to latency \begin{math}T_L\end{math}\cite{transfer2}:
 
 \begin{align*}

@@ -1,4 +1,4 @@
-\subsection*{Branching}
+\subsection{Branching}
 Unlike CPU cores GPU's offer no branch prediction or speculative execution.
 When a multiprocessor is given one or more thread blocks to execute, it partitions them into warps (32 parallel threads), and these execute one common instruction at a time.
 At branch statements threads can diverge however, the warp will serially execute each branch path taken for all threads (but just disabling them) and when paths complete the threads will converge.\cite{cuda_guide}. This will kill the performance of the GPU if many threads within a warp.

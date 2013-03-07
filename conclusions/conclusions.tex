@@ -1,4 +1,4 @@
-\section*{Conclusion}
+\section{Conclusion}
 Porting the code to a GPU really does provide vast speed ups of the code. These can be seen more thoroughly with medium.vtu and large.vtu which take a very long time to run on the CPU.
 However it is the parallelism that this algorithm specifically benefits from, we did not compare our GPU initial results with a parallelised version on the CPU (i.e. coloured). But since the GPU supports far faster floating point manipulations, and a significantly higher number of threads than the CPU there is little to no question that it will run faster.
 The CUDA Tool Kit also allows for an easy introduction into GPU programming so that even with no prior GPU programming experience it is relatively straight forward and has come along way in the past few years. The use of CUDA benefitted this project's timescale rather than the less restrictive counter-part, OpenCL, due to the experience level of the group members.

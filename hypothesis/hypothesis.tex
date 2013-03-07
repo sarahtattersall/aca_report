@@ -1,13 +1,13 @@
-\section*{Hypothesis}
+\section{Hypothesis}
 Our hypothesis is that parallelising our code through colouring and running each colour on the GPU simultaneously will provide a massive performance increase.
 
 
 GPGPU `is the utilisation of a graphics processing unit (GPU), which typically handles computation only for computer graphics, to perform computation in applications traditionally handled by the central processing unit (CPU)'\cite{gpgpu}.
-GPU's are ideal for the smoothing algorithm that we have been provided with since although they can only process independent vertices and fragments they can process many of them in parallel and achieve SIMD performance. The transistors of a GPU are devoted to data processing(mainly integer and floating point)\cite{lec7}.
+Although GPUs can only process independent vertices and fragments they are ideal for the smoothing algorithm since they can process many of them in parallel and achieve a high performance by SIMT. The transistors of a GPU are devoted to data processing (mainly integer and floating point) which again makes it a good choice for this investigation\cite{lec7}.
 
 % TODO: WRITE A BIT FROM http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html - hardware impl section
 
-Since we can colour our mesh and run vertices of the same colour on in parallel the GPU seems like a natural choice for optimisation. Furthermore the smoothing algorithm makes use of many floating point operations and so we should see a very large speed up from just porting to the CPU alone.
+Since we can colour our mesh and run vertices of the same colour on in parallel, migrating the code to the GPU seems like a natural choice for optimisation. Furthermore the smoothing algorithm makes use of many floating point operations and so we should see a very large speed up from just porting to the GPU alone.
 
 The CUDA Toolkit provides a comprehensive development environment and allows for easy migration of code.
 
