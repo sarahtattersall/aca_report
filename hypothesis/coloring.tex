@@ -1,5 +1,5 @@
-\subsection*{Colouring}
-We cannot independently smooth all vertices in the mesh simultaneously since a vertex depends on it's adjacent vertices. If these were smoothed at the same time the results would not be correct and so these must be locked down. We can however colour vertices of the mesh and run each independent set simultaneously on the GPU.
+\subsection{Colouring}
+We cannot independently smooth all vertices in the mesh simultaneously since a vertex depends on its adjacent vertices. If these were smoothed at the same time the results would not be correct and so these must be locked down. We can however colour vertices of the mesh and run each independent set simultaneously on the GPU.
 Colouring is the first step that must be performed when porting the code across to the GPU.
-We will experiment with a greedy algorithm that finds the first possible colour a vertex can fall in, and thus may not prove to be an optimal solution but will provide satisfactory results.
-
+We will experiment with a greedy algorithm that finds the first possible colour a vertex can fall in, and thus may not prove to be an optimal solution (i.e. the fewest colours) but will provide satisfactory results.
+This section will not be included in the benchmark timings, but instead will count as a pre-processing step.
