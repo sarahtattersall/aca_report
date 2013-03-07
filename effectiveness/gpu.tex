@@ -16,7 +16,7 @@ Once the vertices had been coloured and the code migrated to the GPU the results
 
 As we can see, moving the code to the GPU and parallelising it through colouring makes a huge difference to the performance of this algorithm. Since the GPU has 8 cores and 2 special purpose function units it can run up to 16 threads in parallel and because each vertex smoothing is performed on a single thread it can make use of this expanded parallelism. The i5 CPU on the other hand only has four cores of which two threads can be run at a time so if we had parallelised for the CPU the likelihood is the result would not have been as good. There are normally a great many more than sixteen threads that need running during a colour iteration which means that we will have many warps (32 threads) for the scheduler to choose from, something which is a necessity when trying to achieve high throughput from a GPU. When one warp is blocked, the scheduler can schedule another to run making full use of the GPU's resources and reducing any idle time.
 
-From profiling the small.vtk run we can gather the following statistics as a benchmark to start from:\\
+From profiling the \texttt{small.vtu} run we can gather the following statistics as a benchmark to start from:\\
 \begin{figure}[H]\centering \begin{tabular}{ l | l | l | l}
 \hline
 Test & Average & Min & Max \\
