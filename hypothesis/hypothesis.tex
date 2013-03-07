@@ -2,7 +2,7 @@
 Our hypothesis is that parallelising our code through colouring and running each colour on the GPU simultaneously will provide a massive performance increase.
 
 
-GPGPU `is the utilisation of a graphics processing unit (GPU), which typically handles computation only for computer graphics, to perform computation in applications traditionally handled by the central processing unit (CPU)'\cite{gpgpu}.
+GPGPU (General-purpose graphics processing unit) is `the utilisation of a graphics processing unit (GPU), which typically handles computation only for computer graphics, to perform computation in applications traditionally handled by the central processing unit (CPU)' \cite{gpgpu}.
 GPU's are ideal for the smoothing algorithm that we have been provided with since although they can only process independent vertices and fragments they can process many of them in parallel and achieve SIMD performance. The transistors of a GPU are devoted to data processing(mainly integer and floating point)\cite{lec7}.
 
 % TODO: WRITE A BIT FROM http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html - hardware impl section

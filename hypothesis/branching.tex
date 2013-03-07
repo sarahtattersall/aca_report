@@ -1,15 +1,15 @@
 \subsection*{Branching}
-Unlike CPU cores GPU's offer no branch prediction or speculative execution.
+Unlike CPU cores, GPUs offer no branch prediction nor speculative execution.
 When a multiprocessor is given one or more thread blocks to execute, it partitions them into warps (32 parallel threads), and these execute one common instruction at a time.
-At branch statements threads can diverge however, the warp will serially execute each branch path taken for all threads (but just disabling them) and when paths complete the threads will converge.\cite{cuda_guide}. This will kill the performance of the GPU if many threads within a warp.
+Threads can diverge at branch statements, however, and the warp will serially execute each branch path taken for all threads (disabling execution per-thread as appropriate); The threads converge when the paths complete \cite{cuda_guide}. This will kill the performance of the GPU if many threads within a warp diverge.
 
-A major source of branching in the smoothing algorithm comes from the fact that different vertices have different numbers of neighbours. The three main loops (calculating worst coords, calculating the new worst coords, and assembling matrices A \& q) all depend upon looping over a vertices neighbours and thus each warp will end up executing the loop the maximum number of neighbours times.
+A major source of branching in the smoothing algorithm arises due to different vertices having different numbers of neighbours. The three main loops (calculating worst coords, calculating the new worst coords, and assembling matrices $A$ \& $q$) all revolve around iterating over a vertex's neighbours, and thus each warp will end up executing the loop `the maximum degree' times.
 
 We will therefore investigate the following:
 \begin{itemize}
   \item \textbf{Minimising branching}
-                In order to avoid this we will investigate minimising the branches by ordering the individual vertices in order of the number of neighbours they have. This will reduce branching since in most warps all threads will process vertices with the same degree and only a few unlucky warps that have a transition in number of neighbours will do some unnecessary work.
-                For example if the vertices in colour 0 were 1, 4, 6, 7, 10, 12 and we have 0, 4, 6, 12 have 6 neighbours, 1 and 7 have 5, and 10 has 4 we would re-order them to be 10, 1, 7 0, 4, 6, 12.
+                Minimising the branches by ordering the individual vertices according to the number of neighbours they have. This will reduce branching since in most warps all threads will process vertices with the same degree and only a few unlucky warps having a transition in the number of neighbours will do some unnecessary work.
+                For example if the vertices in colour 0 were 1, 4, 6, 7, 10, 12, with vertices 0, 4, 6, 12 having 6 neighbours, 1 and 7 having 5, and 10 having 4, we would re-order them to be 10, 1, 7 0, 4, 6, 12.
 
   \item \textbf{Removing corner nodes during colouring}
                 The smoothing algorithm bypasses any corner nodes and so we can avoid the conditional branch:
@@ -19,5 +19,5 @@ We will therefore investigate the following:
     return;
   }
                 \end{verbatim}
-                By factoring out corner nodes during the colouring phase it removes the need for this branch entirely and so should hopefully provide a slight speed up.
+                By factoring out corner nodes during the colouring phase, we remove the need for this branch entirely, which would hopefully provide a slight speed up.
 \end{itemize}
