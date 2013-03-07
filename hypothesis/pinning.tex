@@ -6,9 +6,10 @@ Host data allocations are pageable by default which means that the GPU cannot ac
   \caption[pinning]{GPU Data Transfers\cite{transfer}}
   \label{fig:pinning}
 \end{figure}
-Pinned memory is used as a staging area for transfers and we can avoid this cost by directly allocating our host arrays (e.g colours) in pinned memory.
+Pinned memory is used as a staging area for transfers and we can avoid this cost by directly allocating our host arrays (colours, coords, etc.) in pinned memory.
 
-Since we do not know the size of our 2D data arrays we will allocate all our data in normal memory using the standard library data structures and then in a pre-processing stage call a \verb!pin_data! method on the mesh and similarly with the colours.
+Since we do not know the size of our 2D data arrays we will allocate all our data in normal memory using the standard library data structures and then in a pre-processing stage call a \verb!pin_data! method on the mesh. We will use a similar method with the colours, which are seperate from the mesh.
+
 With extra code our data structures could be pinned straight away, however we perform this pre-processing stage as a compromise to allow us to spend our time on GPU optimisations rather than speeding up the CPU code which does not count in the benchmark timings.
 
-We can easily lift the code we will write for serialising data structures \verb!CUDATools.h! into the Mesh, so this should hopefully reduce time spent on this optimisation.
+We can easily lift the code we will write for serialising data structures from \verb!CUDATools.h! (as described in section \ref{sec:migration}) into the Mesh and this should hopefully reduce time spent on this optimisation.
